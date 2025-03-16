@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/joho/godotenv"
 	"io"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/joho/godotenv"
 )
 
 type watchStatus struct {
@@ -80,6 +81,7 @@ func main() {
 	for _, item := range test.Items {
 		setWatched(item)
 	}
+	fmt.Println("All items set as watched with date")
 }
 
 // todo add the api calls for setting the item status to watched
@@ -104,8 +106,7 @@ func setWatched(item struct {
 	reqURL.RawQuery = query.Encode() // Encode the query parameters
 
 	// Create the request body
-	reqBody := fmt.Sprintf(`{"Played":true, "LastPlayedDate":"%s", "PlayCount": 1 }`, time.Now().Format("2006-01-02T15:04:05Z"))
-
+	reqBody := fmt.Sprintf(`{"Played":true, "LastPlayedDate":"%s", "PlayCount": 1, "PlaybackPositionTicks": 0 }`, time.Now().UTC().Format(time.RFC3339))
 	// Create a new HTTP request
 	req, err := http.NewRequest("POST", reqURL.String(), strings.NewReader(reqBody))
 	if err != nil {
@@ -131,6 +132,10 @@ func setWatched(item struct {
 		fmt.Println("Error reading the response body:", err)
 		return
 	}
-	fmt.Println("Status Code:", resp.StatusCode)
-	fmt.Println("Response Body:", string(body))
+	if resp.StatusCode != 200 {
+		fmt.Println("Error setting item as watched:", item.Name)
+		fmt.Println("Status Code:", resp.StatusCode)
+		fmt.Println("Response Body:", string(body))
+	}
+
 }
