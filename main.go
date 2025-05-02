@@ -16,7 +16,8 @@ import (
 type watchStatus struct {
 	Items []struct {
 		UserData struct {
-			Played bool `json:"Played"`
+			Played         bool   `json:"Played"`
+			LastPlayedDate *string `json:"LastPlayedDate"`
 		}
 		Name string `json:"Name"`
 		Id   string `json:"Id"`
@@ -79,7 +80,9 @@ func main() {
 	}
 
 	for _, item := range test.Items {
-		setWatched(item)
+		if item.UserData.LastPlayedDate == nil {
+			setWatched(item)
+		}
 	}
 	fmt.Println("All items set as watched with date")
 }
@@ -88,6 +91,7 @@ func main() {
 func setWatched(item struct {
 	UserData struct {
 		Played bool `json:"Played"`
+		LastPlayedDate *string `json:"LastPlayedDate"`
 	}
 	Name string `json:"Name"`
 	Id   string `json:"Id"`
