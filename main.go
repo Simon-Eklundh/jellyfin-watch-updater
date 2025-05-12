@@ -16,7 +16,7 @@ import (
 type watchStatus struct {
 	Items []struct {
 		UserData struct {
-			Played         bool   `json:"Played"`
+			Played         bool    `json:"Played"`
 			LastPlayedDate *string `json:"LastPlayedDate"`
 		}
 		Name string `json:"Name"`
@@ -25,6 +25,8 @@ type watchStatus struct {
 }
 
 func main() {
+	// Log the start of the program
+	fmt.Println("starting jellyfin-watched")
 	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
@@ -78,19 +80,21 @@ func main() {
 		fmt.Println("Error unmarshalling JSON:", err2)
 		return
 	}
+	var watchedCount = 0
 
 	for _, item := range test.Items {
 		if item.UserData.LastPlayedDate == nil {
 			setWatched(item)
+			watchedCount++
 		}
 	}
-	fmt.Println("All items set as watched with date")
+	fmt.Printf("%d items set as watched with date\n", watchedCount)
 }
 
 // todo add the api calls for setting the item status to watched
 func setWatched(item struct {
 	UserData struct {
-		Played bool `json:"Played"`
+		Played         bool    `json:"Played"`
 		LastPlayedDate *string `json:"LastPlayedDate"`
 	}
 	Name string `json:"Name"`
