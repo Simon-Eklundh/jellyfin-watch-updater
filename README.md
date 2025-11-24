@@ -25,14 +25,14 @@ simply run the docker image:
 ```bash
 docker run -d simoneklundh/jellyfin-watch-updater:2.0
 ```
-in the same path as your .env file
+with your own environment variables
 
 #### using go (not recommended, but still completely usable)
 
 This simply runs the script once 
 
-clone the project
-install go
-cd into the source directory 
-go run .
+clone the project  
+install go  
+cd into the source directory   
+go run .  
 
