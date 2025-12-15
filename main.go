@@ -46,15 +46,9 @@ func main() {
 			return
 		}
 	}
-	value, exists := os.LookupEnv("JELLYFIN_USER_ID")
-	fmt.Println("value:", value)
-	fmt.Println("exists", exists)
-	//	os.LookupEnv()
-	//	os.LookupEnv()
 
 	// Define the API endpoint
 	baseURL := os.Getenv("JELLYFIN_BASE_URL") + "/Items"
-	fmt.Println("baseurl: ", baseURL)
 	// Create a URL object and add query parameters
 	reqURL, err := url.Parse(baseURL)
 	if err != nil {
