@@ -24,18 +24,37 @@ type watchStatus struct {
 	}
 }
 
+func fileExists(path string) bool {
+	info, err := os.Stat(path)
+	if err != nil {
+		// If the error is “file does not exist”, return false.
+		return !os.IsNotExist(err)
+	}
+	// Path exists – make sure it’s not a directory.
+	return !info.IsDir()
+}
+
 func main() {
 	// Log the start of the program
-	fmt.Println("starting jellyfin-watched")
+	fmt.Println("running jellyfin-watched")
 	// Load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-		return
+	if fileExists("./.env") {
+		fmt.Println(".env exists")
+		err := godotenv.Load() 
+		if err != nil {
+			fmt.Println("Error loading .env file")
+			return
+		}
 	}
+	value, exists := os.LookupEnv("JELLYFIN_USER_ID")
+	fmt.Println("value:", value)
+	fmt.Println("exists", exists)
+	//	os.LookupEnv()
+	//	os.LookupEnv()
+
 	// Define the API endpoint
 	baseURL := os.Getenv("JELLYFIN_BASE_URL") + "/Items"
-
+	fmt.Println("baseurl: ", baseURL)
 	// Create a URL object and add query parameters
 	reqURL, err := url.Parse(baseURL)
 	if err != nil {
@@ -81,7 +100,8 @@ func main() {
 		return
 	}
 	var watchedCount = 0
-
+	fmt.Println("request to get watched items succeeded")
+	fmt.Println("setting LastPlayedDate on items with no LastPlayedDate")
 	for _, item := range test.Items {
 		if item.UserData.LastPlayedDate == nil {
 			setWatched(item)

@@ -1,1 +1,3 @@
-0 * * * * /app/script
+0 * * * * . /etc/environment; /usr/local/bin/script >> /proc/1/fd/1 2>&1
+@reboot . /etc/environment; /usr/local/bin/script >> /proc/1/fd/1 2>&1
+@reboot  . /etc/environment; env > /tmp/cron-env.txt
