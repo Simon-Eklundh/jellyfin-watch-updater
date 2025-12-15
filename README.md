@@ -10,7 +10,7 @@ This is only necessary if 1. you're using a jellyfin client that doesn't properl
 ### needed env variables (add to a .env):
 
 JELLYFIN_USER_ID=[user you want to set it to played for]  
-JELLYFIN_API_KEY=[a jellyfin api key] 
+JELLYFIN_API_KEY=[a jellyfin api key]   
 JELLYFIN_BASE_URL=https://jellyfin.domain.tld  
 
 ### JELLYFIN_USER_ID
