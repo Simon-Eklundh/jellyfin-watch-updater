@@ -30,12 +30,12 @@ simply run the docker image
 with your own environment variables
 if you're using an .env file you can do the following:
 ```bash
-docker run -d --env-file .env simoneklundh/jellyfin-watch-updater:2.0
+docker run -d --env-file .env simoneklundh/jellyfin-watch-updater:latest
 ```
 or if you want individual environment variables:
 
 ```bash
-docker run -d -e JELLYFIN_USER_ID=[your id here] -e JELLYFIN_API_KEY=[your api key here] -e JELLYFIN_BASE_URL=[your jellyfin url here] simoneklundh/jellyfin-watch-updater:2.0
+docker run -d -e JELLYFIN_USER_ID=[your id here] -e JELLYFIN_API_KEY=[your api key here] -e JELLYFIN_BASE_URL=[your jellyfin url here] simoneklundh/jellyfin-watch-updater:latest
 ```
 #### using go (not recommended, but still completely usable)
 
